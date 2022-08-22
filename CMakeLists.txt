@@ -175,6 +175,16 @@ list(APPEND NGP_INCLUDE_DIRECTORIES
 	"dependencies/tinylogger"
 )
 
+find_package(OpenCV REQUIRED)
+if(OpenCV_FOUND)
+   message("Found OpenCV")
+   message("OpenCV include dir: " ${OpenCV_INCLUDE_DIRS})
+   message("OpenCV libs: " ${OpenCV_LIBS}) 
+   list(APPEND NGP_INCLUDE_DIRECTORIES ${OpenCV_INCLUDE_DIRS})
+   # list(APPEND NGP_LINK_DIRECTORIES "${OpenCV_DIR}/lib/Release")
+   list(APPEND NGP_LIBRARIES ${OpenCV_LIBS})
+endif()
+
 find_package(OpenMP)
 if (OPENMP_FOUND)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")

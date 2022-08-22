@@ -34,10 +34,14 @@
 #include <filesystem/directory.h>
 #include <filesystem/path.h>
 
+#include <opencv2/cudaimgproc.hpp>
+#include <opencv2/highgui.hpp>
+
 #ifdef copysign
 #undef copysign
 #endif
 
+using namespace cv;
 using namespace Eigen;
 using namespace tcnn;
 namespace fs = filesystem;
@@ -3038,6 +3042,10 @@ void Testbed::train_nerf_step(uint32_t target_batch_size, uint32_t n_rays_per_ba
 		target_batch_size,
 		1
 	);
+
+	cv::Mat img2 = cv::imread("image.png", IMREAD_GRAYSCALE);
+	cv::cuda::GpuMat dst, src;
+	src.upload(img2);
 
 	// TODO: C++17 structured binding
 	uint32_t* ray_indices = std::get<0>(scratch);
